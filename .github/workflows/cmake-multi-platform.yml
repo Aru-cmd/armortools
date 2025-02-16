@@ -42,6 +42,13 @@ jobs:
         run: |
           echo "build-output-dir=${{ github.workspace }}/build" >> "$GITHUB_OUTPUT"
 
+      - name: Generate CMakeLists.txt
+        run: |
+          echo 'cmake_minimum_required(VERSION 3.10)' > CMakeLists.txt
+          echo 'project(ArmorTools)' >> CMakeLists.txt
+          echo 'set(CMAKE_CXX_STANDARD 17)' >> CMakeLists.txt
+          echo 'add_executable(armor_tools main.cpp)' >> CMakeLists.txt
+
       - name: Configure CMake
         run: >
           cmake -B ${{ steps.strings.outputs.build-output-dir }}
@@ -85,7 +92,7 @@ jobs:
         run: node Kha/make android --compile
 
       - name: Upload APK Artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: ArmorPaint-Android
           path: build/android/bin/*.apk
