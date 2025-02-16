@@ -1,0 +1,16 @@
+workflows:
+  build_workflow:
+    name: Build ArmorTools
+    max_build_duration: 120
+    environment:
+      vars:
+        CMAKE_BUILD_TYPE: "Release"
+    scripts:
+      - name: Setup
+        script: |
+          sudo apt update
+          sudo apt install -y cmake g++ clang
+      - name: Build
+        script: |
+          cmake -B build -DCMAKE_CXX_COMPILER=g++ -DCMAKE_C_COMPILER=gcc -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
+          cmake --build build --config ${CMAKE_BUILD_TYPE}
